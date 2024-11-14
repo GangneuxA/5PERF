@@ -94,7 +94,6 @@ export class WeatherDataRepository {
     cache.set(cacheKey, data);
     return data;
   }
-
   //calcule de la moyenne en base de données
   async getMeanTemperature(location: string, options: WeatherFilter): Promise<number | null> {
     const { from, to } = options;
@@ -120,6 +119,59 @@ export class WeatherDataRepository {
     const mean = result.rows[0]?.mean || null;
     cache.set(cacheKey, mean); 
     return mean;
+  }
+
+  //ajoute de la recuperation de la temperature max et min en bdd
+  async getMaxTemperature(location: string, options: WeatherFilter): Promise<number | null> {
+    const { from, to } = options;
+    const cacheKey = `maxTemperature:${location}:${from}:${to}`;
+    
+    const cachedMax = cache.get<number>(cacheKey);
+    if (cachedMax !== undefined) {
+      return cachedMax;
+    }
+
+    const query = `
+      SELECT MAX(temperature) as max
+      FROM weather
+      WHERE location = $1
+      ${from ? 'AND date >= $2' : ''}
+      ${to ? 'AND date <= $3' : ''}
+    `;
+    const values: (string | Date | Number)[] = [location];
+    if (from) values.push(from);
+    if (to) values.push(to);
+  
+    const result: pg.QueryResult = await this.pool.query(query, values);
+    const max = result.rows[0]?.max || null;
+    cache.set(cacheKey, max); 
+    return max;
+  }
+//ajoute de la recuperation de la temperature max et min en bdd
+  async getMinTemperature(location: string, options: WeatherFilter): Promise<number | null> {
+    const { from, to } = options;
+    const cacheKey = `minTemperature:${location}:${from}:${to}`;
+    
+    const cachedMin = cache.get<number>(cacheKey);
+    if (cachedMin !== undefined) {
+      return cachedMin;
+    }
+
+    const query = `
+      SELECT MIN(temperature) as min
+      FROM weather
+      WHERE location = $1
+      ${from ? 'AND date >= $2' : ''}
+      ${to ? 'AND date <= $3' : ''}
+    `;
+    const values: (string | Date | Number)[] = [location];
+    if (from) values.push(from);
+    if (to) values.push(to);
+  
+    const result: pg.QueryResult = await this.pool.query(query, values);
+    const min = result.rows[0]?.min || null;
+    cache.set(cacheKey, min); 
+    return min;
   }
 }
 

@@ -104,8 +104,6 @@ This route is not publicly exposed and is used only by the internal robots respo
 
   - from: Date (optional)
   - to: Date (optional)
-  - limit: Number (optional)
-  - offset: Date (optional)
 
   examlple query:
 

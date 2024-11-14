@@ -30,8 +30,7 @@ export class WeatherService {
 
   // ajout des dates dans la requete
   async getMax(location: string, options: WeatherFilter) {
-    const data = await this.getData(location, options);
-
+    const data = await this.weatherRepository.getMaxTemperature(location, options);
     if (data === null) {
       return null;
     }
@@ -40,12 +39,10 @@ export class WeatherService {
 
   // ajout des dates dans la requete
   async getMin(location: string, options: WeatherFilter) {
-    const data = await this.getData(location, options);
-
+    const data = await this.weatherRepository.getMinTemperature(location, options);
     if (data === null) {
       return null;
     }
-
     return data;
   }
 }
