@@ -108,7 +108,7 @@ This route is not publicly exposed and is used only by the internal robots respo
   examlple query:
 
   ```sh
-  curl localhost:3000/weather/max/Lyon?from=2023-12-22\&limit=100\&offset=0
+  curl localhost:3000/weather/max/Lyon?from=2023-12-22
   ```
 
   response example:
@@ -122,13 +122,11 @@ This route is not publicly exposed and is used only by the internal robots respo
 
   - from: Date (optional)
   - to: Date (optional)
-  - limit: Number (optional)
-  - offset: Date (optional)
 
   examlple query:
 
   ```sh
-  curl localhost:3000/weather/min/Lyon\?to=2023-12-25\&limit=100\&offset=0
+  curl localhost:3000/weather/min/Lyon\?to=2023-12-25
   ```
 
   response example:
