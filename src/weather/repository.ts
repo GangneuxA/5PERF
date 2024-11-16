@@ -94,6 +94,7 @@ export class WeatherDataRepository {
     cache.set(cacheKey, data);
     return data;
   }
+  
   //calcule de la moyenne en base de données
   async getMeanTemperature(location: string, options: WeatherFilter): Promise<number | null> {
     const { from, to } = options;
